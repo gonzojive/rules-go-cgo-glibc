@@ -1,0 +1,4 @@
+bazel-bin
+bazel-out
+bazel-rules-go-cgo-glibc
+bazel-testlogs
