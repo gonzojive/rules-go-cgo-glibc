@@ -1,0 +1,18 @@
+# Based on https://bazel.build/tutorials/cc-toolchain-config#review_your_work
+
+# Use our custom-configured c++ toolchain.
+
+build:my_config --crosstool_top=//toolchain:downloaded_gcc_suite
+
+# Use --cpu as a differentiator.
+
+build:my_config --cpu=k8
+
+build:my_config --compiler=downloadedgcc
+
+# Use the default Bazel C++ toolchain to build the tools used during the
+# build.
+
+build:my_config --host_crosstool_top=@bazel_tools//tools/cpp:toolchain
+
+build:my_config --platforms=//toolchain:my_linux_amd64_cgo

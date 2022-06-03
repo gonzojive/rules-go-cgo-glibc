@@ -1,0 +1,62 @@
+load(":my_toolchain_config2.bzl", "my_cc_toolchain_config")
+
+package(default_visibility = ["//visibility:public"])
+
+# Based on tutorial at
+# https://docs.bazel.build/versions/main/tutorial/cc-toolchain-config.html
+
+filegroup(name = "empty")
+
+cc_toolchain_suite(
+    name = "downloaded_gcc_suite",
+    toolchains = {
+        "k8": ":k8_toolchain",
+        "k8|downloadedgcc": ":k8_toolchain",
+    },
+)
+
+cc_toolchain(
+    name = "k8_toolchain",
+    all_files = ":empty",
+    compiler_files = ":empty",
+    dwp_files = ":empty",
+    linker_files = ":empty",
+    objcopy_files = ":empty",
+    strip_files = ":empty",
+    supports_param_files = 0,
+    toolchain_config = ":k8_toolchain_config",
+    toolchain_identifier = "mytoolchainid",
+)
+
+my_cc_toolchain_config(name = "k8_toolchain_config")
+
+# Based on https://github.com/bazelbuild/rules_go/issues/1642
+toolchain(
+    name = "cc-toolchain-example",
+    exec_compatible_with = [
+        "@platforms//cpu:x86_64",
+        "@platforms//os:linux",
+    ],
+    target_compatible_with = [
+        "@platforms//cpu:x86_64",
+        "@platforms//os:linux",
+    ],
+    toolchain = ":k8_toolchain",
+    toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
+)
+
+# See https://docs.bazel.build/versions/main/platforms.html
+platform(
+    name = "my_linux_amd64_cgo",
+    constraint_values = [
+        ":my-constraint-value",
+    ],
+    parents = ["@io_bazel_rules_go//go/toolchain:linux_amd64_cgo"],
+)
+
+constraint_setting(name = "example-constraint")
+
+constraint_value(
+    name = "my-constraint-value",
+    constraint_setting = ":example-constraint",
+)

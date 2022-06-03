@@ -129,3 +129,8 @@ Diff:
 30a23
 >               ld-linux-x86-64.so.2 (GLIBC_2.2.5) => /lib64/ld-linux-x86-64.so.2
 ```
+
+
+See links
+
+* https://github.com/bazelbuild/rules_go/issues/1642
