@@ -92,7 +92,7 @@ ldd --verbose bazel-out/k8-fastbuild/bin/program_/program:
 
 Diff:
 
-`$ diff output-ubuntu1804.txt output-ubuntu2204.txt ` produces
+`./gendiff.sh && cat report.diff` produces
 
 ```diff
 2c2
