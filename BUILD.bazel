@@ -1,0 +1,23 @@
+load("@bazel_gazelle//:def.bzl", "gazelle")
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+package(
+    default_visibility = ["//visibility:public"],
+)
+
+# gazelle:prefix github.com/gonzojive/rules-go-cgo-glibc
+# gazelle:go_naming_convention import
+gazelle(name = "gazelle")
+
+go_library(
+    name = "rules-go-cgo-glibc_lib",
+    srcs = ["program.go"],
+    importpath = "github.com/gonzojive/rules-go-cgo-glibc",
+    visibility = ["//visibility:public"],
+    deps = ["//sub"],
+)
+
+go_binary(
+    name = "program",
+    embed = [":rules-go-cgo-glibc_lib"],
+)
